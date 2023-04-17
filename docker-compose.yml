@@ -1,0 +1,21 @@
+version: "3.9"
+services:
+  rabbitmq:
+    image: "rabbitmq:latest"
+    container_name: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+  server:
+    build: .
+    depends_on:
+      - rabbitmq
+  client:
+    build: .
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+    depends_on:
+      - server
+    volumes:
+      - ./rpc_client.py:/rpc_client.py:ro
+    command: pip install pika
