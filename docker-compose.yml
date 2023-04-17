@@ -11,11 +11,10 @@ services:
     depends_on:
       - rabbitmq
   client:
-    build: .
+    image: python:latest
     environment:
       - RABBITMQ_HOST=rabbitmq
     depends_on:
       - server
     volumes:
       - ./rpc_client.py:/rpc_client.py:ro
-    command: pip install pika
